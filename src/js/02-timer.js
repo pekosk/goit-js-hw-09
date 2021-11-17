@@ -11,7 +11,6 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  minDate: "today",
   onClose(selectedDates) {
     console.log(selectedDates[0]);
   },
@@ -37,3 +36,4 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
