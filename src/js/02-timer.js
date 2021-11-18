@@ -6,6 +6,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 const inputDate = document.querySelector('#datetime-picker');
 const submitDate = document.querySelector('[data-start]');
 let userDate = null;
+let timerSetter = null;
 
 const options = {
   enableTime: true,
@@ -19,14 +20,12 @@ const options = {
       submitDate.setAttribute('disabled', 'disabled');
       window.alert("Please choose a date in the future");
     }
-    // console.log(selectedDates[0]);
     userDate = selectedDates[0];
-    logDate()
   },
 };
 
 function logDate() {
-  const timeToWait = Date.parse(userDate) - Date.parse(new Date());
+  const timeToWait = userDate - new Date();
   const timerTime = convertMs(timeToWait);
   console.log(convertMs(timeToWait));
   return timerTime;
@@ -41,12 +40,16 @@ function setTimer() {
 }
 
 function submitDateClick() {
-  const diff = Date.parse(userDate) - Date.parse(new Date());
-  const timerSetter = setInterval(setTimer, 1000);
-    if (diff < 1000) {
-      console.log(diff)
+  timerSetter = setInterval(() => {
+    const diff = userDate - new Date();
+    if (diff <= 0) {
       clearInterval(timerSetter);
+      submitDate.removeAttribute('disabled');
+    return;
     }
+    submitDate.setAttribute('disabled', 'disabled');
+  setTimer(diff);
+  }, 1000);
 }
 
 submitDate.addEventListener('click', submitDateClick);
