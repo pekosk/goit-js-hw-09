@@ -41,9 +41,13 @@ function setTimer() {
 }
 
 function submitDateClick() {
-  setTimer();
+  const diff = Date.parse(userDate) - Date.parse(new Date());
+  const timerSetter = setInterval(setTimer, 1000);
+    if (diff < 1000) {
+      console.log(diff)
+      clearInterval(timerSetter);
+    }
 }
-
 
 submitDate.addEventListener('click', submitDateClick);
 
