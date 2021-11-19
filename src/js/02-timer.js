@@ -2,6 +2,7 @@
 import flatpickr from 'flatpickr';
 // Дополнительный импорт стилей
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const inputDate = document.querySelector('#datetime-picker');
 const submitDate = document.querySelector('[data-start]');
@@ -13,12 +14,15 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  onOpen(selectedDates) {
+    Notify.info('Select the date on which you want to set the counter');
+  },
   onClose(selectedDates) {
     if (selectedDates[0] >= new Date()) {
       submitDate.removeAttribute('disabled');
     } else {
       submitDate.setAttribute('disabled', 'disabled');
-      window.alert("Please choose a date in the future");
+      Notify.failure("Please choose a date in the future");
     }
     userDate = selectedDates[0];
   },
